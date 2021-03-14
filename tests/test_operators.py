@@ -34,7 +34,7 @@ def test_symmetric():
     """
     None
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError('Need to implement for Task 0.2')
+    raise NotImplementedError("Need to implement for Task 0.2")
 
 
 @pytest.mark.task0_2
@@ -45,7 +45,7 @@ def test_distribute():
     """
     None
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError('Need to implement for Task 0.2')
+    raise NotImplementedError("Need to implement for Task 0.2")
 
 
 @pytest.mark.task0_2
@@ -55,7 +55,7 @@ def test_other():
     """
     None
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError('Need to implement for Task 0.2')
+    raise NotImplementedError("Need to implement for Task 0.2")
 
 
 # HIGHER ORDER
@@ -78,7 +78,7 @@ def test_property(ls1, ls2):
     is the same as the sum of each element of `ls1` plus each element of `ls2`.
     """
     # TODO: Implement for Task 0.3.
-    raise NotImplementedError('Need to implement for Task 0.3')
+    raise NotImplementedError("Need to implement for Task 0.3")
 
 
 @pytest.mark.task0_3
