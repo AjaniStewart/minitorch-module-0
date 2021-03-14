@@ -2,6 +2,7 @@ from minitorch import operators
 from hypothesis import given
 from hypothesis.strategies import lists
 from .strategies import small_floats, assert_close
+
 import pytest
 
 
@@ -27,35 +28,64 @@ def test_relu(a):
 
 
 @pytest.mark.task0_2
-def test_symmetric():
+@given(small_floats, small_floats)
+def test_symmetric(x, y):
     """
     Write a test that ensures that :func:`minitorch.operators.mul` is symmetric, i.e.
     gives the same value regardless of the order of its input.
     """
-    None
-    # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
+    assert operators.mul(x, y) == operators.mul(y, x)
+    assert operators.add(x, y) == operators.add(y, x)
 
 
 @pytest.mark.task0_2
-def test_distribute():
+@given(small_floats, small_floats, small_floats)
+def test_distribute(x, y, z):
     r"""
     Write a test that ensures that your operators distribute, i.e.
     :math:`z \times (x + y) = z \times x + z \times y`
     """
-    None
-    # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
+    assert_close(
+        operators.mul(z, operators.add(x, y)),
+        operators.add(operators.mul(z, x), operators.mul(z, y)),
+    )
 
 
 @pytest.mark.task0_2
-def test_other():
+@given(small_floats)
+def test_id(x):
     """
     Write a test that ensures some other property holds for your functions.
     """
-    None
-    # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
+    assert operators.id(x) == x
+    assert_close(x, operators.neg(operators.neg(x)))
+    if x != 0:
+        assert_close(x, operators.inv(operators.inv(x)))
+
+
+@pytest.mark.task0_2
+@given(small_floats)
+def test_inv(x):
+    """
+    Write a test that ensures some other property holds for your functions.
+    """
+    if x != 0:
+        assert_close(operators.mul(x, operators.inv(x)), 1)
+    assert_close(operators.add(x, operators.neg(x)), 0)
+
+
+@pytest.mark.task0_2
+@given(small_floats, small_floats, small_floats)
+def test_associate(x, y, z):
+    """
+    Write a test that ensures some other property holds for your functions.
+    """
+    assert_close(
+        operators.mul(operators.mul(x, y), z), operators.mul(x, operators.mul(y, z))
+    )
+    assert_close(
+        operators.add(operators.add(x, y), z), operators.add(x, operators.add(y, z))
+    )
 
 
 # HIGHER ORDER
@@ -77,8 +107,7 @@ def test_property(ls1, ls2):
     Write a test that ensures that the sum of `ls1` plus the sum of `ls2`
     is the same as the sum of each element of `ls1` plus each element of `ls2`.
     """
-    # TODO: Implement for Task 0.3.
-    raise NotImplementedError("Need to implement for Task 0.3")
+    assert_close(operators.addLists(ls1, ls2), list(map(lambda x, y: x + y, ls1, ls2)))
 
 
 @pytest.mark.task0_3
