@@ -20,15 +20,23 @@ class Module:
         "Return the child modules of this module."
         return self.__dict__["_modules"].values()
 
+    def set_mode(self, mode: str):
+        self.mode = mode
+
+        if mode == "train":
+            for mod in self._modules.values():
+                mod.train()
+        elif mode == "eval":
+            for mod in self._modules.values():
+                mod.eval()
+
     def train(self):
         "Set the mode of this module and all descendent modules to `train`."
-        # TODO: Implement for Task 0.4.
-        raise NotImplementedError("Need to implement for Task 0.4")
+        self.set_mode("train")
 
     def eval(self):
         "Set the mode of this module and all descendent modules to `eval`."
-        # TODO: Implement for Task 0.4.
-        raise NotImplementedError("Need to implement for Task 0.4")
+        self.set_mode("eval")
 
     def named_parameters(self):
         """
@@ -38,8 +46,14 @@ class Module:
         Returns:
             dict: Each name (key) and :class:`Parameter` (value) under this module.
         """
-        # TODO: Implement for Task 0.4.
-        raise NotImplementedError("Need to implement for Task 0.4")
+        params = {}
+        for name, module in self._modules.items():
+            np = module.named_parameters()
+            new_names = [f"{name}.{old_name}" for old_name in np.keys()]
+            new_params = dict(zip(new_names, list(np.values())))
+            params.update(new_params)
+        params.update(self._parameters)
+        return params
 
     def parameters(self):
         return self.named_parameters().values()
